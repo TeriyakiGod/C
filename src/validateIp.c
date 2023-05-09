@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "validateIp.h"
+#include "utilities.h"
 
 int validateIp(char ip[]) {
     if (strlen(ip) > 15) return 0;
-    int i;
+    int i, j;
     //array of strings to hold each part of the ip address
     char* ip_parts[4];
     //make a copy of the ip address
@@ -18,9 +18,11 @@ int validateIp(char ip[]) {
     //split the ip address into 4 parts
     strcpy(ip_parts[0], strtok(temp_ip, "."));
     for (i = 1; i < 4; i++) {
-        ip_parts[i] = strtok(NULL, ".");
+        strcpy(ip_parts[i], strtok(NULL, "."));
         if (ip_parts[i] == NULL) {
             // There are fewer parts than expected
+            // Free memory
+            for (j = 0; j < 4; j++) free(ip_parts[j]);
             return 0;
         }
     }
@@ -28,6 +30,8 @@ int validateIp(char ip[]) {
     for (i = 0; i < 4; i++) {
         if (strcmp(ip_parts[i], "") == 0) {
             // Part is empty
+            // Free memory
+            for (j = 0; j < 4; j++) free(ip_parts[j]);
             return 0;
         }
         if (strcmp(ip_parts[i], "0") == 0) {
@@ -37,13 +41,13 @@ int validateIp(char ip[]) {
         int part = strtol(ip_parts[i], NULL, 10);
         if (part <= 0 || part > 255) {
             // Part is not in range
+            // Free memory
+            for (j = 0; j < 4; j++) free(ip_parts[j]);
             return 0;
         }
     }
     // Free memory
-    for (i = 0; i < 4; i++) {
-        free(ip_parts[i]);
-    }
+    for (j = 0; j < 4; j++) free(ip_parts[j]);
     //The IP address is valid
     return 1;
 }
