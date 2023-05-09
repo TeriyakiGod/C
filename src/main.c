@@ -2,7 +2,7 @@
 #include "utilities.h"
 
 int main() {
-    char ip[] = "127.0.0.1";
+    char ip[] = "0.0.0.0";
     if (validateIp(ip)==1) {
         printf("%s is a valid IP address", ip);
     } else {
