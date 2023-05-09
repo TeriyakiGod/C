@@ -40,8 +40,8 @@ int validateIp(char ip[]) {
             // Part is 0
             continue;
         }
-        int part = strtol(ip_parts[i], NULL, 10);
-        if (part <= 0 || part > 255) {
+        int part_num = strtol(ip_parts[i], NULL, 10);
+        if (part_num <= 0 || part_num > 255) {
             // Part is not in range
             // Free memory
             for (j = 0; j < 4; j++) free(ip_parts[j]);
